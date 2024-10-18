@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ImageFragment">
+
+
+    <ImageView
+        android:scaleType="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/iv_image"
+        android:src="@drawable/purple_node_bg"
+        android:contentDescription="selected Image" />
+
+    <ImageButton
+        android:id="@+id/btn_post"
+        android:layout_width="70dp"
+        android:contentDescription="TODO"
+        android:src="@drawable/ic_post"
+        android:layout_height="70dp"
+        android:scaleType="centerInside"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="20dp"
+        android:background="@drawable/rounded_button" />
+
+    <View
+        android:id="@+id/overlay"
+        android:visibility="gone"
+        android:alpha="0.7"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#393535"/>
+
+    <com.github.ybq.android.spinkit.SpinKitView
+        android:id="@+id/spin_kit"
+        android:visibility="gone"
+        style="@style/SpinKitView.Large.Wave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        app:SpinKit_Color="@color/colorAccent" />
+
+</RelativeLayout>

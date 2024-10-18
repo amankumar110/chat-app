@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CustomizationFragment">
+
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="26dp"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:text="Customization"
+        android:textSize="26sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed-light"
+        android:text="For Light Mode | Not Used in Night Mode"
+        android:textSize="18sp"
+        android:layout_marginStart="26dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+
+    <View
+        android:id="@+id/btn_header_color"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@drawable/customization_sample_shape"
+        android:padding="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/line_1"
+        app:layout_constraintStart_toEndOf="@+id/line_1" />
+
+    <ImageView
+        android:id="@+id/line_2"
+        android:layout_marginStart="10dp"
+        android:layout_width="60dp"
+        android:scaleType="centerCrop"
+        android:layout_height="60dp"
+        android:scaleX="1.5"
+        android:scaleY="1.5"
+        android:layout_marginTop="150dp"
+        android:src="@drawable/arrow_top_right"
+        app:layout_constraintStart_toEndOf="@+id/v_main_color"
+        app:layout_constraintTop_toBottomOf="@+id/line_1" />
+
+    <View
+        android:id="@+id/v_header_color"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:background="@drawable/customization_header_shape"
+        app:layout_constraintBottom_toTopOf="@+id/v_main_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <View
+        android:id="@+id/v_main_color"
+        android:layout_width="150dp"
+        android:layout_height="400dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/customization_main_screen_shape"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/line_1"
+        android:layout_width="60dp"
+        android:scaleX="1.5"
+        android:scaleY="1.5"
+        android:layout_height="60dp"
+        android:src="@drawable/arrow_top_right"
+        app:layout_constraintBottom_toTopOf="@+id/v_header_color"
+        app:layout_constraintStart_toEndOf="@+id/v_header_color" />
+
+    <View
+        android:id="@+id/btn_main_screen_color"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@drawable/customization_sample_shape"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toTopOf="@+id/line_2"
+        app:layout_constraintStart_toEndOf="@+id/line_2" />
+
+    <Button
+        android:id="@+id/btn_apply_changes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="27dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="25dp"
+        android:text="Apply Changes"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/v_main_color" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

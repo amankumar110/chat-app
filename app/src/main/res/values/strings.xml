@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">WhatsappApp</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="privacy_room">Privacy Room</string>
+    <string name="image_upload_fail_network_error">Could\'t Upload Image, Please Connect to an Internet Connection!</string>
+    <string name="no_image_selected_message">Please Select an Image To Continue</string>
+</resources>

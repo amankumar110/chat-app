@@ -1,0 +1,16 @@
+<resources>
+
+    <color name="white">@android:color/white</color>
+    <color name="black">@android:color/black</color>
+    <color name="colorPrimary">#00BCD4</color>
+    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorAccent">#00BCD4</color>
+    <color name="statusBarColor">@color/white</color>  <!-- Example light theme color -->
+    <color name="statusBarColorNight">#121212</color>  <!-- Example dark theme color -->
+    <color name="colorBackground">#121212</color>
+    <color name="colorText">#FFFFFF</color>
+    <color name="hintColor">#9A9A9797</color>
+    <color name="colorSecondary">#4E4C4C</color>
+    <color name="colorBackgroundFloating">#9A9393</color>
+
+</resources>
