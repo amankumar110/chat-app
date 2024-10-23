@@ -41,10 +41,6 @@ public class UserViewModel extends ViewModel {
         return signupState;
     }
 
-    public LiveData<String> getSignupError() {
-        return signupError;
-    }
-
     // Handle the task and update LiveData for loading, success, and error
     public void signupAnonymously() {
         signupState.setValue(SignupState.LOADING); // Set state to loading
@@ -69,33 +65,7 @@ public class UserViewModel extends ViewModel {
         repository.signOut();
     }
 
-    public LiveData<List<ChatGroup>> getChatGroups() {
-        return repository.getChatGroups();
-    }
 
-    public void addChatGroups(ChatGroup group) {
-        if(!group.getGroupName().isEmpty())
-            repository.addChatGroup(group);
 
-    }
 
-    public LiveData<List<Message>> getMessages(String groupName) {
-        return repository.getMessages(groupName);
-    }
-
-    public void addMessage(Message message, String groupName) {
-        if(message!=null && !groupName.isEmpty())
-            repository.addMessage(message,groupName);
-    }
-
-    public void deleteMessage(Message message,String groupName) {
-        if(message!=null && !groupName.isEmpty()) {
-            repository.deleteMessage(message,groupName);
-        }
-    }
-
-    public void deleteAllMessages(String groupName) {
-        if(!groupName.isEmpty())
-            repository.deleteAllMessages(groupName);
-    }
 }

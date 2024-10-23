@@ -7,6 +7,24 @@
     tools:context=".CustomizationFragment">
 
 
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switch_light_text"
+        android:layout_width="wrap_content"
+        app:switchPadding="10dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="30dp"
+        android:checked="true"
+        android:fontFamily="sans-serif-condensed-light"
+        android:text="Light Text"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_header_color"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView5"
+        app:thumbTint="@color/colorText"
+        app:trackTint="@color/colorBackgroundFloating" />
+
     <TextView
         android:id="@+id/textView3"
         android:layout_width="match_parent"
@@ -20,12 +38,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/textView5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="26dp"
         android:fontFamily="sans-serif-condensed-light"
         android:text="For Light Mode | Not Used in Night Mode"
         android:textSize="18sp"
-        android:layout_marginStart="26dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />

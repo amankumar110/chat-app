@@ -1,26 +1,24 @@
 package in.amankumar110.whatsappapp.adapters;
 
 import android.content.Context;
+import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
-import android.text.method.Touch;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.compose.ui.graphics.Color;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
-import com.google.firebase.auth.FirebaseAuth;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import in.amankumar110.whatsappapp.R;
 import in.amankumar110.whatsappapp.databinding.RowChatBinding;
 import in.amankumar110.whatsappapp.databinding.RowNoItemsBinding;
 import in.amankumar110.whatsappapp.models.Message;
+import in.amankumar110.whatsappapp.utils.ColorUtil;
+import in.amankumar110.whatsappapp.utils.UiHelper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -29,14 +27,21 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private final Context context;
     private List<Message> messageList = new ArrayList<>();
+    private OnImageMessageClicked imageCallback;
 
-    public MessageAdapter(Context context) {
+    public MessageAdapter(Context context, OnImageMessageClicked onImageClicked) {
         this.context = context;
+        this.imageCallback = onImageClicked;
+    }
+
+    public interface OnImageMessageClicked {
+        void onClick(String downloadUrl);
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (messageList==null || messageList.isEmpty()) {
+        // Return VIEW_TYPE_NO_ITEMS if messageList is empty, otherwise return VIEW_TYPE_MESSAGE
+        if (messageList == null || messageList.isEmpty()) {
             return VIEW_TYPE_NO_ITEMS;
         } else {
             return VIEW_TYPE_MESSAGE;
@@ -69,34 +74,38 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof MessageViewHolder) {
             Message message = messageList.get(position);
+            int headerColor = ColorUtil.getHeaderColor(context);
 
-            // Bind the message to the view
+            if(!UiHelper.isDarkModeEnabled(context))
+               setColors(headerColor, ((MessageViewHolder) holder).binding);
+
+            // Bind message data to the view
             ((MessageViewHolder) holder).binding.setMessage(message);
 
-            if(message.isImage()) {
+            if(message.isImageSentByMe()) {
+                ((MessageViewHolder) holder).binding.senderImageItem.tvImageName
+                        .setText(message.getImageName());
 
-                Uri uri = Uri.parse(message.getDownloadUrl());
+                ((MessageViewHolder) holder).binding.senderImageItem.imageView.setOnClickListener(v ->
+                        imageCallback.onClick(message.getDownloadUrl()));
 
-                if(message.isImageSentByMe()) {
-                    Glide.with(context).load(uri).placeholder(R.drawable.ic_image).into(((MessageViewHolder) holder).binding.ivImageSentByMe);
-                } else {
-                    Glide.with(context).load(uri).placeholder(R.drawable.ic_image).into(((MessageViewHolder) holder).binding.ivImageNotSentByMe);
-                }
+            } else if(message.isImageReceived()) {
+                ((MessageViewHolder) holder).binding.receiverImageItem.tvImageName
+                        .setText(message.getImageName());
+
+                ((MessageViewHolder) holder).binding.receiverImageItem.imageView.setOnClickListener(v ->
+                        imageCallback.onClick(message.getDownloadUrl()));
             }
 
-        } else {
-            // Handle the No items view (if needed, customize the message)
+        } else if (holder instanceof NoItemsViewHolder) {
+            // Handle the case when there are no items (if needed)
         }
     }
 
     @Override
     public int getItemCount() {
-        // If no items are available, we still want to show one item, which is the "No items" view
-        if (messageList == null || messageList.isEmpty()) {
-            return 1;
-        } else {
-            return messageList.size();
-        }
+        // Return the size of the messageList or 1 if no items are available
+        return (messageList == null || messageList.isEmpty()) ? 1 : messageList.size();
     }
 
     /**
@@ -113,6 +122,30 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void addMessage(Message message) {
         this.messageList.add(message);
         notifyItemInserted(messageList.size() - 1);
+    }
+
+    public OnImageMessageClicked getImageCallback() {
+        return imageCallback;
+    }
+
+    public void setImageCallback(OnImageMessageClicked imageCallback) {
+        this.imageCallback = imageCallback;
+    }
+
+    /**
+     * Set the colors for the message layout components
+     */
+    private void setColors(int color, RowChatBinding view) {
+        ((GradientDrawable)view.receiverImageItem.getRoot().getBackground()).setColor(color);
+        ((GradientDrawable)view.senderImageItem.getRoot().getBackground()).setColor(color);
+        ((GradientDrawable)view.senderMessageContainer.getBackground()).setColor(color);
+        ((GradientDrawable)view.receiverMessageContainer.getBackground()).setColor(color);
+        view.senderImageItem.tvImageName.setTextColor(ColorUtil.getTextColor(context));
+        view.receiverImageItem.tvImageName.setTextColor(ColorUtil.getTextColor(context));
+        view.tvReceiverMessage.setTextColor(ColorUtil.getTextColor(context));
+        view.tvSenderMessage.setTextColor(ColorUtil.getTextColor(context));
+        view.receiverImageItem.imageView.setColorFilter(ColorUtil.getTextColor(context));
+        view.senderImageItem.imageView.setColorFilter(ColorUtil.getTextColor(context));
     }
 
     public static class MessageViewHolder extends RecyclerView.ViewHolder {

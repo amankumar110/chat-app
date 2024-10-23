@@ -1,5 +1,8 @@
 <resources>
 
+    <color name="colorTextLight">#ffffff</color>
+    <color name="colorTextDark">#000000</color>
+
     <color name="white">@android:color/white</color>
     <color name="black">@android:color/black</color>
     <color name="statusBarColor">@color/white</color>  <!-- Example light theme color -->
@@ -12,6 +15,7 @@
     <color name="hintColor">#9E9E9E</color>
     <color name="colorSecondary">#DAD3D3</color>
     <color name="colorBackgroundFloating">#E3DFDF</color>
+    <color name="colorGradient">#609688</color>
 
 </resources>
 

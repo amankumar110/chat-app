@@ -2,17 +2,18 @@ package in.amankumar110.whatsappapp;
 
 import android.app.Dialog;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.compose.ui.graphics.Color;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,6 +60,10 @@ public class CustomizationFragment extends Fragment {
 
         int headerColor = ColorUtil.getHeaderColor(requireContext());
         int mainColor = ColorUtil.getMainColor(requireContext());
+        int textColor = ColorUtil.getTextColor(requireContext());
+
+
+        binding.switchLightText.setChecked(ColorUtil.isUsingLightColor(requireContext()));
 
         setColors(headerColor,binding.vHeaderColor);
         setColors(mainColor,binding.vMainColor);
@@ -76,8 +81,9 @@ public class CustomizationFragment extends Fragment {
             // Get the background of the header color view
             Drawable headerBackground = binding.vHeaderColor.getBackground();
             Drawable mainBackground = binding.vMainColor.getBackground();
+            boolean useLightText = binding.switchLightText.isChecked();
 
-            ColorUtil.saveGroupColors(mainBackground,headerBackground,requireContext());
+            ColorUtil.saveGroupColors(mainBackground,headerBackground,useLightText,requireContext());
             navController.navigate(R.id.action_customizationFragment_to_mainFragment);
         });
     }

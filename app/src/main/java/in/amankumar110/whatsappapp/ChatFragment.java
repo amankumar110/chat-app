@@ -1,6 +1,7 @@
 package in.amankumar110.whatsappapp;
 
 import android.app.ActionBar;
+import android.app.DownloadManager;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.ColorDrawable;
@@ -39,7 +40,9 @@ import in.amankumar110.whatsappapp.models.ChatGroup;
 import in.amankumar110.whatsappapp.models.Message;
 import in.amankumar110.whatsappapp.utils.ColorUtil;
 import in.amankumar110.whatsappapp.utils.ContentManager;
+import in.amankumar110.whatsappapp.utils.ImageDownloader;
 import in.amankumar110.whatsappapp.utils.UiHelper;
+import in.amankumar110.whatsappapp.viewmodels.MessageViewModel;
 import in.amankumar110.whatsappapp.viewmodels.UserViewModel;
 
 @AndroidEntryPoint
@@ -47,9 +50,9 @@ public class ChatFragment extends Fragment {
 
     private FragmentChatBinding binding;
     private NavController navController;
-    private ChatGroup group;
+    private ChatGroup group = new ChatGroup();
     private MessageAdapter adapter;
-    private UserViewModel viewModel;
+    private MessageViewModel viewModel;
     private ContentManager contentManager = new ContentManager();
 
     @Override
@@ -86,7 +89,7 @@ public class ChatFragment extends Fragment {
         // Initialize Navigation Controller
         navController = Navigation.findNavController(view);
 
-        adapter = new MessageAdapter(requireContext());
+        adapter = new MessageAdapter(requireContext(),this::onImageClicked);
 
         // Initialize RecyclerView and its adapter
         binding.rvMessagesList.setAdapter(adapter);
@@ -101,7 +104,7 @@ public class ChatFragment extends Fragment {
         binding.setGroupName(group.getGroupName()); // Bind group name to layout
 
         // Initialize ViewModel
-        viewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        viewModel = new ViewModelProvider(this).get(MessageViewModel.class);
 
         // Observe messages and update UI accordingly
         viewModel.getMessages(group.getGroupName()).observe(getViewLifecycleOwner(), messageList -> {
@@ -174,13 +177,29 @@ public class ChatFragment extends Fragment {
 
         } else {
             binding.textView.setBackgroundColor(ColorUtil.getHeaderColor(requireContext()));
-            binding.btnEdit.setBackgroundColor(ColorUtil.getHeaderColor(requireContext()));
+            binding.textView.setTextColor(ColorUtil.getTextColor(requireContext()));
+
             UiHelper.setCustomStatusBarColor(requireActivity(), ColorUtil.getHeaderColor(requireContext()));
             binding.getRoot().setBackgroundColor(ColorUtil.getMainColor(requireContext()));
             binding.btnSend.setBackgroundColor(ColorUtil.getHeaderColor(requireContext()));
+            binding.btnSend.setTextColor(ColorUtil.getTextColor(requireContext()));
 
             ColorStateList list = ColorStateList.valueOf(ColorUtil.getHeaderColor(requireContext()));
             binding.btnPic.setBackgroundTintList(list);
+
+            ColorStateList imageList = ColorStateList.valueOf(ColorUtil.getTextColor(requireContext()));
+            binding.btnPic.setImageTintList(imageList);
+
+            binding.btnEdit.setBackgroundColor(ColorUtil.getHeaderColor(requireContext()));
+            binding.btnEdit.setImageTintList(imageList);
+        }
+    }
+
+    private void onImageClicked(String downloadUrl) {
+        Uri uri = Uri.parse(downloadUrl);
+        if (uri != null) {
+            ImageDownloader.downloadImage(uri, requireContext());
+            Toast.makeText(requireContext(), "Download Started!", Toast.LENGTH_SHORT).show();
         }
     }
 

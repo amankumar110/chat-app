@@ -27,6 +27,9 @@ public class Message {
     @SerializedName("download_url")
     private String downloadUrl;
 
+    @SerializedName(("image_name"))
+    private String imageName;
+
     // Constructor for text message
     public Message(String message, Long time, String senderId) {
         this.message = message;
@@ -109,6 +112,15 @@ public class Message {
 
     public void setDownloadUrl(String downloadUrl) {
         this.downloadUrl = downloadUrl;
+    }
+
+
+    public String getImageName() {
+        return imageName;
+    }
+
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
     }
 
     @Override

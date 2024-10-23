@@ -1,5 +1,9 @@
 package in.amankumar110.whatsappapp.models;
 
+import androidx.databinding.BindingAdapter;
+
+import in.amankumar110.whatsappapp.BR;
+
 public class ChatGroup {
 
     private String groupName;
@@ -30,4 +34,6 @@ public class ChatGroup {
     public void setPrivacyRoom(boolean privacyRoom) {
         isPrivacyRoom = privacyRoom;
     }
+
+
 }

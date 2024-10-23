@@ -14,35 +14,39 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <!-- Receiver Message Layout -->
         <LinearLayout
+            android:id="@+id/receiver_message_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:orientation="horizontal"
             android:visibility="@{message.messageReceived ? View.VISIBLE : View.GONE}">
 
-            <ImageView
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:layout_marginTop="10dp"
-                android:src="@drawable/grey_node" />
+            <!-- Node representing the receiver -->
 
+            <!-- Receiver message container -->
             <LinearLayout
+                android:id="@+id/receiver_message_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/left_node_bg"
                 android:orientation="vertical">
 
+                <!-- Message text from receiver -->
                 <TextView
+                    android:id="@+id/tv_receiver_message"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="start"
-                    android:padding="5dp"
+                    android:maxWidth="200dp"
+                    android:padding="10dp"
                     android:text="@{message.message}"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="15sp" />
             </LinearLayout>
 
+            <!-- Message timestamp -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -52,7 +56,9 @@
                 android:textSize="8sp" />
         </LinearLayout>
 
+        <!-- Sender Message Layout -->
         <LinearLayout
+            android:id="@+id/sender_message_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -60,6 +66,7 @@
             android:orientation="horizontal"
             android:visibility="@{message.messageSentByMe ? View.VISIBLE : View.GONE}">
 
+            <!-- Message timestamp -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -68,56 +75,45 @@
                 android:text="@{message.formattedTime}"
                 android:textSize="8sp" />
 
+            <!-- Sender message container -->
             <LinearLayout
+                android:id="@+id/sender_message_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/right_node_bg"
                 android:orientation="vertical">
 
+                <!-- Message text from sender -->
                 <TextView
+                    android:id="@+id/tv_sender_message"
+                    android:maxWidth="200dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="start"
                     android:textSize="15sp"
-                    android:padding="5dp"
+                    android:padding="10dp"
                     android:textColor="@color/white"
                     android:text="@{message.message}" />
             </LinearLayout>
 
-            <ImageView
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:layout_marginTop="10dp"
-                android:src="@drawable/purple_node_bg" />
+            <!-- Node representing the sender -->
         </LinearLayout>
 
+        <!-- Receiver Image Layout -->
         <LinearLayout
+            android:id="@+id/receiver_image_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:orientation="horizontal"
             android:visibility="@{message.imageReceived ? View.VISIBLE : View.GONE}">
 
-            <ImageView
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:layout_marginTop="10dp"
-                android:src="@drawable/grey_node" />
+            <!-- Node representing the receiver for image -->
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/left_node_bg"
-                android:orientation="vertical">
+            <!-- Receiver image container -->
+            <include android:id="@+id/receiver_image_item" layout="@layout/image_layout_left"/>
 
-                <ImageView
-                    android:src="@drawable/ic_image"
-                    android:id="@+id/iv_image_not_sent_by_me"
-                    android:layout_width="120dp"
-                    android:scaleType="centerCrop"
-                    android:layout_height="120dp"/>
-            </LinearLayout>
-
+            <!-- Image timestamp -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -127,42 +123,30 @@
                 android:textSize="8sp" />
         </LinearLayout>
 
+        <!-- Sender Image Layout -->
         <LinearLayout
+            android:id="@+id/sender_image_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:gravity="end"
             android:orientation="horizontal"
-            android:visibility="@{ message.imageSentByMe ? View.VISIBLE : View.GONE}">
+            android:visibility="@{message.imageSentByMe ? View.VISIBLE : View.GONE}">
 
+            <!-- Image timestamp -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:text="@{message.formattedTime}"
                 android:textSize="8sp" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/right_node_bg"
-                android:orientation="vertical">
+            <!-- Sender image container -->
+            <include android:id="@+id/sender_image_item" layout="@layout/image_layout_right"/>
 
-                <ImageView
-                    android:id="@+id/iv_image_sent_by_me"
-                    android:layout_width="120dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_image"
-                    android:layout_height="120dp" />
-            </LinearLayout>
-
-            <ImageView
-                android:layout_width="10dp"
-                android:layout_height="10dp"
-                android:scaleType="centerCrop"
-                android:layout_marginTop="10dp"
-                android:src="@drawable/purple_node_bg" />
+            <!-- Node representing the sender for image -->
         </LinearLayout>
+
     </LinearLayout>
 </layout>

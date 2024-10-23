@@ -27,6 +27,7 @@ import in.amankumar110.whatsappapp.databinding.AddGroupDialogueBinding;
 import in.amankumar110.whatsappapp.databinding.FragmentMainBinding;
 import in.amankumar110.whatsappapp.models.ChatGroup;
 import in.amankumar110.whatsappapp.utils.GroupCompartor;
+import in.amankumar110.whatsappapp.viewmodels.GroupViewModel;
 import in.amankumar110.whatsappapp.viewmodels.UserViewModel;
 
 
@@ -34,7 +35,7 @@ import in.amankumar110.whatsappapp.viewmodels.UserViewModel;
 public class MainFragment extends Fragment {
 
     private FragmentMainBinding binding;
-    private UserViewModel viewModel;
+    private GroupViewModel viewModel;
     private GroupsAdapter adapter;
     private AlertDialog addGroupDialog;
     private NavController navController;
@@ -50,10 +51,10 @@ public class MainFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        viewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        viewModel = new ViewModelProvider(this).get(GroupViewModel.class);
         navController = Navigation.findNavController(view);
 
-        adapter = new GroupsAdapter(new GroupCompartor(), group -> {
+        adapter = new GroupsAdapter(requireContext(), group -> {
 
             Bundle data = new Bundle();
             String json = new Gson().toJson(group);

@@ -27,6 +27,8 @@ import in.amankumar110.whatsappapp.databinding.FragmentImageBinding;
 import in.amankumar110.whatsappapp.models.Message;
 import in.amankumar110.whatsappapp.utils.NetworkManager;
 import in.amankumar110.whatsappapp.utils.UiHelper;
+import in.amankumar110.whatsappapp.viewmodels.ImageViewModel;
+import in.amankumar110.whatsappapp.viewmodels.MessageViewModel;
 import in.amankumar110.whatsappapp.viewmodels.UserViewModel;
 
 @AndroidEntryPoint
@@ -35,9 +37,10 @@ public class ImageFragment extends Fragment {
     private Uri uri;
     private String groupName;
     private FragmentImageBinding binding;
-    private FirebaseStorage storage;
+    private ImageViewModel imageViewModel;
     private NavController navController;
-    private UserViewModel viewModel;
+    private MessageViewModel messageViewModel;
+    private String imageName;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -50,11 +53,11 @@ public class ImageFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         // Initialize components like arguments and Firebase
 
-        viewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        messageViewModel = new ViewModelProvider(this).get(MessageViewModel.class);
+        imageViewModel = new ViewModelProvider(this).get(ImageViewModel.class);
         navController = Navigation.findNavController(view);
 
         initializeArguments();
-        initializeFirebase();
         initializeUI();
 
         // Set up the button click listener
@@ -68,11 +71,6 @@ public class ImageFragment extends Fragment {
             groupName = getArguments().getString("groupName");
             this.uri = Uri.parse(uriString);
         }
-    }
-
-    // 2. Initialize Firebase storage instance
-    private void initializeFirebase() {
-        storage = FirebaseStorage.getInstance();
     }
 
     // 3. Initialize UI components, like setting the image
@@ -105,21 +103,23 @@ public class ImageFragment extends Fragment {
 
     // 5. Upload the image to Firebase Storage
     private void uploadImageToFirebase(Uri uri) {
-        // Generate a unique filename using UUID
+
         String uniqueFileName = "images/" + UUID.randomUUID().toString() + ".jpg";
+        this.imageName = uniqueFileName;
 
-        // Get a reference to Firebase Storage
-        StorageReference storageRef = storage.getReference().child(uniqueFileName);
+        try {
+            imageViewModel.addImage(uniqueFileName, uri)
+                    .addOnCompleteListener(this::handleUploadComplete)
+                    .addOnFailureListener(this::handleUploadFailure);
 
-        // Upload file to Firebase
-        storageRef.putFile(uri)
-                .addOnFailureListener(this::handleUploadFailure)
-                .addOnCompleteListener(this::handleUploadComplete);
+        } catch (IllegalArgumentException e) {
+            UiHelper.showMessage("Image Couldn't be uploaded!",requireContext());
+        }
     }
 
     // 6. Handle failure during file upload
     private void handleUploadFailure(Exception e) {
-        Toast.makeText(requireContext(), "Upload Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        UiHelper.showMessage("Upload Failed: " + e.getMessage(),requireContext());
         hideLoader();
     }
 
@@ -130,7 +130,7 @@ public class ImageFragment extends Fragment {
             StorageReference storageRef = task.getResult().getStorage();
             storageRef.getDownloadUrl().addOnSuccessListener(this::handleImageUploadSuccess);
         } else {
-            Toast.makeText(requireContext(), "Upload not successful", Toast.LENGTH_SHORT).show();
+            UiHelper.showMessage("Upload not successful",requireContext());
         }
     }
 
@@ -138,12 +138,13 @@ public class ImageFragment extends Fragment {
 
         Message message = new Message();
         message.setImage(true);
-        message.setDownloadUrl(String.valueOf(downloadUri));
+        message.setImageName(imageName);
+        message.setDownloadUrl(downloadUri.toString());
         message.setSenderId(FirebaseAuth.getInstance().getUid());
         message.setTime(System.currentTimeMillis());
 
         if (groupName != null && !groupName.isEmpty()) {
-            viewModel.addMessage(message, groupName);
+            messageViewModel.addMessage(message, groupName);
         }
 
         hideLoader();

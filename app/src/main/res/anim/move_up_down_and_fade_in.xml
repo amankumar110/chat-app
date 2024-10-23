@@ -1,0 +1,17 @@
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:ordering="together">
+
+
+    <!-- Fade in -->
+    <alpha
+        android:fromAlpha="0.0"
+        android:toAlpha="1.0"
+        android:duration="1000"
+        android:startOffset="0" />
+
+    <!-- Move up and down -->
+    <translate
+        android:fromYDelta="-100dp"
+        android:toYDelta="0dp"
+        android:duration="1000" />
+</set>

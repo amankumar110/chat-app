@@ -12,10 +12,5 @@ import in.amankumar110.whatsappapp.repositories.UserRepository;
 @InstallIn(SingletonComponent.class)
 public class AppModule {
 
-    @Provides
-    @Singleton
-    public UserRepository getUserRepository() {
-        return new UserRepository();
-    }
 
 }

@@ -12,5 +12,6 @@
     <color name="hintColor">#9A9A9797</color>
     <color name="colorSecondary">#4E4C4C</color>
     <color name="colorBackgroundFloating">#9A9393</color>
+    <color name="colorGradient">#60BCD4</color>
 
 </resources>
